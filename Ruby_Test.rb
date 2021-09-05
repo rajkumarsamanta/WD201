@@ -41,7 +41,13 @@ new_nums.each{|n| puts n}
 
 # Problem 1: nested array of names
 names=[["Raj Kumar","Samanta"],["Vivek", "Sood"],["P. K.","Sethy"],["Hirok","Dutta"]]
-full_names=names.map{|x| x[0]+ " " +x [1]}
+#full_names=names.map{|x| x[0]+ " " +x [1]}
+full_names=names.map{|x| x.join(" ")}
 full_names.each{|n| puts n}
 
+#Problem 2 merging two arrays
+books = ["Design as Art", "Anathem", "Shogun"]
+authors = ["Bruno Munari", "Neal Stephenson", "James Clavell"]
+books_authors = books.map.with_index {|book, i| "#{book} is written by #{authors[i]}"}
+books_authors.each{|x| puts x}
 
