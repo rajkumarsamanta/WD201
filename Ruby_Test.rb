@@ -51,3 +51,41 @@ authors = ["Bruno Munari", "Neal Stephenson", "James Clavell"]
 books_authors = books.map.with_index {|book, i| "#{book} is written by #{authors[i]}"}
 books_authors.each{|x| puts x}
 
+#Learn todo list by category problem 3
+
+todos = [
+  ["Send invoice", "money"],
+  ["Clean room", "organize"],
+  ["Pay rent", "money"],
+  ["Arrange books", "organize"],
+  ["Pay taxes", "money"],
+  ["Buy groceries", "food"]
+]
+
+catArr=[]
+moneyCat =["money"]
+cat1=[]
+orgCat=["organize"]
+cat2=[]
+foodCat=["food"]
+cat3=[]
+todos.each{ |x|
+  if (x[1]=="money") then 
+    cat1.push("#{x[0]}")
+  elsif (x[1]=="organize") then 
+    cat2.push("#{x[0]}")
+  else
+    cat3.push("#{x[0]}")
+  end
+}
+moneyCat.push(cat1)
+orgCat.push(cat2)
+foodCat.push(cat3)
+catArr.push(moneyCat,orgCat,foodCat)
+
+catArr.each{|k|
+  puts "\n#{k[0]} :\n"
+  k[1].each{|y|
+    puts "  #{y}"
+  }
+}
