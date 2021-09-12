@@ -21,27 +21,27 @@ def parse_dns(raw)
   reject {|line| line.include?("#") || line.strip.empty? }.
   map {|line| line.strip.split(", ") }.
   each_with_object({}) do |record, records|
-      records[record]={ :type => record[0], :source => record[1], :destination => record[2] }
+      records[record[1]]={ :type => record[0], :source => record[1], :destination => record[2] }
   end
 end
 
 def resolve(dns_records, lookup_chain, domain)
-  entry = dns_records.select{|key, data| data[:source] == domain }
-  if entry.empty?() == true
-      lookup_chain.push("ERROR!! records not found for #{domain}")
-  else 
-      entry.each do |key, data|
-          if data[:type]=="A"
-              lookup_chain.push(data[:destination])
-          else
-              domain = data[:destination]
-              lookup_chain.push(domain)
-              resolve(dns_records, lookup_chain, domain)
-          end
-      end
+  record = dns_records[domain]
+  if(!record)
+      lookup_chain << "ERROR!! records not found for " + domain
+      return lookup_chain
+  elsif  record[:type]=="A"
+      lookup_chain << record[:destination]
+  elsif record[:type] == "CNAME"
+      domain = record[:destination]
+      lookup_chain << domain
+      resolve(dns_records, lookup_chain, domain)
+  else
+      lookup_chain << "Invalid record type for " + domain
+      return lookup_chain
   end
-  return lookup_chain
 end    
+ 
 dns_records = parse_dns(dns_raw)
 lookup_chain = [domain]
 lookup_chain = resolve(dns_records, lookup_chain, domain)
