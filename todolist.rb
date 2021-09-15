@@ -19,6 +19,18 @@ class Todo
     @done
   end
 
+  def overdue?
+    Date.today > @due_date
+  end
+
+  def due_today?
+    Date.today == @due_date
+  end
+
+  def due_later?
+    @due_date > Date.today
+  end
+
   def to_displayable_string
     "[ ] #{@work_text} #{@due_date} completed: #{@done}"
   end
@@ -34,32 +46,30 @@ class TodosList
   end
 
   def overdue
-    TodosList.new(@todos.filter { |todo| todo.due_date < Date.today })
+    TodosList.new(@todos.filter { |todo| todo.overdue? })
   end
 
   def due_today
-    TodosList.new(@todos.filter { |todo| todo.due_date == Date.today })
+    TodosList.new(@todos.filter { |todo| todo.due_today? })
   end 
 
   def due_later
-    TodosList.new(@todos.filter { |todo| todo.due_date > Date.today })
+    TodosList.new(@todos.filter { |todo| todo.due_later? })
   end 
 
   def to_displayable_list
-    str =[]
-    @todos.each{|obj| 
-      if obj.due_date == Date.today
+    @todos.map{|obj| 
+      if obj.due_today?
         if obj.done
           check ="X"
         else
           check =" "
         end
-        str.push("[#{check}] #{obj.work_text}")
+        "[#{check}] #{obj.work_text}"
       else
-        str.push("[ ] #{obj.work_text} #{obj.due_date}")
+        "[ ] #{obj.work_text} #{obj.due_date}"
       end
-    }
-    str.join("\n")
+    }.join("\n")
   end
 end
 
