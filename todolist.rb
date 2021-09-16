@@ -59,16 +59,15 @@ class TodosList
 
   def to_displayable_list
     @todos.map{|obj| 
-      if obj.due_today?
-        if obj.done
-          check ="X"
-        else
-          check =" "
+      display_status = if obj.due_today? && obj.done
+          "[X]"
+        else 
+          "[ ]"
         end
-        "[#{check}] #{obj.work_text}"
-      else
-        "[ ] #{obj.work_text} #{obj.due_date}"
-      end
+      
+      display_date = obj.due_date unless obj.due_today? 
+           
+      "#{display_status} #{obj.work_text} #{display_date}"
     }.join("\n")
   end
 end
