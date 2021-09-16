@@ -32,7 +32,13 @@ class Todo
   end
 
   def to_displayable_string
-    "[ ] #{@work_text} #{@due_date} completed: #{@done}"
+    display_status = if ((@due_date == Date.today) && @done)
+        "[X]"
+      else 
+        "[ ]"
+      end
+    display_date = @due_date unless (@due_date ==Date.today)
+    "#{display_status} #{@work_text} #{display_date}"
   end
 end
 
@@ -58,16 +64,8 @@ class TodosList
   end 
 
   def to_displayable_list
-    @todos.map{|obj| 
-      display_status = if obj.due_today? && obj.done
-          "[X]"
-        else 
-          "[ ]"
-        end
-      
-      display_date = obj.due_date unless obj.due_today? 
-           
-      "#{display_status} #{obj.work_text} #{display_date}"
+    @todos.map{|obj|
+      obj.to_displayable_string
     }.join("\n")
   end
 end
