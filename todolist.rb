@@ -32,11 +32,7 @@ class Todo
   end
 
   def to_displayable_string
-    display_status = if ((@due_date == Date.today) && @done)
-        "[X]"
-      else 
-        "[ ]"
-      end
+    display_status = ((@due_date == Date.today) && @done)? "[X]" : "[ ]" 
     display_date = @due_date unless (@due_date ==Date.today)
     "#{display_status} #{@work_text} #{display_date}"
   end
