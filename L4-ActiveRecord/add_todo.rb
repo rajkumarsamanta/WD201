@@ -1,5 +1,5 @@
-require "./connect_db.rb"
-require "./todo.rb"
+require './connect_db.rb'
+require './todo.rb'
 
 def get_new_todo
   puts "Todo text:"
