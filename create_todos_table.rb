@@ -1,4 +1,5 @@
 require "./connect_db.rb"
+
 connect_db!
 
 ActiveRecord::Migration.create_table(:todos) do |t|
